@@ -24,7 +24,8 @@ module Venice
       end
     end
 
-    def initialize
+    def initialize(seconds_till_timeout=5)
+      @seconds_till_timeout = seconds_till_timeout
       @verification_url = ENV['IAP_VERIFICATION_ENDPOINT']
     end
 
@@ -61,6 +62,7 @@ module Venice
 
       uri = URI(@verification_url)
       http = Net::HTTP.new(uri.host, uri.port)
+      http.read_timeout = @seconds_till_timeout
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
