@@ -31,7 +31,7 @@ module Venice
 
     def verify!(data, options = {})
       json = json_response_from_verifying_data(data)
-      status, receipt_attributes = json['status'].to_i, json['receipt']
+      status, receipt_attributes = json['status'].to_i, json['receipt']['in_app'].first
 
       case status
       when 0, 21006
