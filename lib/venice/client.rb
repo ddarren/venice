@@ -31,10 +31,11 @@ module Venice
 
     def verify!(data, options = {})
       json = json_response_from_verifying_data(data)
-      status, receipt_attributes = json['status'].to_i, json['receipt']['in_app'].first
+      status = json['status'].to_i
 
       case status
       when 0, 21006
+        receipt_attributes = json['receipt']['in_app'].first
         receipt = Receipt.new(receipt_attributes)
 
         if latest_receipt_attributes = json['latest_receipt_info']
