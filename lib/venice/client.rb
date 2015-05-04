@@ -35,18 +35,13 @@ module Venice
 
       case status
       when 0, 21006
-        receipt_attributes = json['receipt']['in_app'].first
-        receipt = Receipt.new(receipt_attributes)
-
-        if latest_receipt_attributes = json['latest_receipt_info']
-          receipt.latest = Receipt.new(latest_receipt_attributes)
+        receipts = []
+        json['receipt']['in_app'].each do |transaction|
+          receipt_attributes = json['receipt']['in_app'].first
+          receipts.push Receipt.new(receipt_attributes)     
         end
 
-        if latest_expired_receipt_attributes = json['latest_expired_receipt_info']
-          receipt.latest_expired = Receipt.new(latest_expired_receipt_attributes)
-        end
-
-        return receipt
+        return receipts
       else
         raise Receipt::VerificationError.new(status)
       end
