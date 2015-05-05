@@ -37,8 +37,7 @@ module Venice
       when 0, 21006
         receipts = []
         json['receipt']['in_app'].each do |transaction|
-          receipt_attributes = json['receipt']['in_app'].first
-          receipts.push Receipt.new(receipt_attributes)     
+          receipts.push Receipt.new(transaction)     
         end
 
         return receipts
